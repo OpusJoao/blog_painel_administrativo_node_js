@@ -7,7 +7,7 @@ const ROUTES = require('../../config/routes')
 const VIEW = require('../../config/views')
 
 router.get(ROUTES.CATEGORY.CREATE,(req,res) => {
-    res.render(VIEW.CATEGORY.CREATE)
+    res.render(VIEW.CATEGORY.CREATE, {ROUTES: ROUTES})
 })
 
 router.get(ROUTES.CATEGORY.LIST,(req,res) => {
@@ -53,10 +53,11 @@ router.post(ROUTES.CATEGORY.DELETE,(req,res) => {
             res.redirect(ROUTES.CATEGORY.LIST)
         })
         .catch((reason)=>{
-            console.error(`[ DELETE -> CategoriesController on ${ROUTES.CATEGORY.DELETE}] Can't create a new category`, reason)
+            console.error(`[ POST -> CategoriesController on ${ROUTES.CATEGORY.DELETE}] Can't delete the category`, reason)
             res.redirect(ROUTES.CATEGORY.LIST)
         })
     }else{
+        console.error(`[ POST -> CategoriesController on ${ROUTES.CATEGORY.DELETE}] id invalid`)
         res.redirect(ROUTES.CATEGORY.LIST);
     }
 })
