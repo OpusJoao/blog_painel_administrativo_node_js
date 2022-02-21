@@ -6,6 +6,7 @@ const categoriesController = require('./src/categories/CategoriesController')
 const articlesController = require('./src/articles/ArticlesController')
 const homeController = require('./src/home/HomeController')
 const adminController = require('./src/admin/AdminController')
+const userController = require('./src/user/UserController')
 const PORT = 8080; 
 
 const Article = require('./src/articles/Article')
@@ -37,6 +38,7 @@ app.use('/', categoriesController)
 app.use('/', articlesController)
 app.use('/', homeController)
 app.use('/', adminController)
+app.use('/', userController)
 
 app.listen(PORT,()=>{
     console.log(`Servidor is running on PORT ${PORT}`)
