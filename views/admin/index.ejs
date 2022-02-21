@@ -1,0 +1,38 @@
+<%- include('../partials/header.ejs') %> <%- include('../partials/navbar.ejs') %>
+<div class="container mt-4">
+    <% if(!locals.category){%>
+        <div class="jumbotron">
+            <h1 class="display-4">Bem vindo.</h1>
+            <p class="lead">
+              Este é um simples blog feito em node.js
+            </p>
+            <hr class="my-4" />
+            <p>
+              Você pode ler, editar e remover artigos!
+            </p>
+            <p class="lead">
+              <a class="btn btn-primary btn-lg" href="#" role="button">Saiba mais</a>
+            </p>
+          </div>
+    <%} %>
+  <div class="row">
+      <div class="col-12">
+          <% if(locals.category){%>
+            <small class="text-muted">Categoria: <%=category.title%></small>
+          <%} %>
+      </div>
+    <% if(locals.articles) { %> <% articles.forEach(article => { %>
+    <div class="col-12">
+      <div class="card my-3">
+        <div class="card-header">
+          <h6><%=article.title%></h6>
+        </div>
+        <div class="card-body">
+          <a href="<%=ROUTES.HOME.ARTICLE_WITHOUT_PARAMS%>/<%=article.id%>/<%=article.slug%>" class="btn btn-success">Ler Artigo</a>
+        </div>
+      </div>
+    </div>
+    <%}) %> <%} %>
+  </div>
+</div>
+<%- include('../partials/footer.ejs') %>
