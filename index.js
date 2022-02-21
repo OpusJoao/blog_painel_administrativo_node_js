@@ -3,6 +3,9 @@ const app = express();
 const bodyParser = require('body-parser')
 const connection = require('./database/database')
 const categoriesController = require('./src/categories/CategoriesController')
+const articlesController = require('./src/articles/ArticlesController')
+const homeController = require('./src/home/HomeController')
+const adminController = require('./src/admin/AdminController')
 const PORT = 8080; 
 
 const Article = require('./src/articles/Article')
@@ -29,11 +32,11 @@ connection
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json());
 
-app.get('/', (req,res)=>{
-    res.render('index');
-})
 
 app.use('/', categoriesController)
+app.use('/', articlesController)
+app.use('/', homeController)
+app.use('/', adminController)
 
 app.listen(PORT,()=>{
     console.log(`Servidor is running on PORT ${PORT}`)
