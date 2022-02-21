@@ -1,4 +1,58 @@
-<%- include('partials/header.ejs') %>
-<%- include('partials/navbar.ejs') %>
-<h1>testando view</h1>
+<%- include('partials/header.ejs') %> <%- include('partials/homeNavBar.ejs') %>
+<div class="container mt-4">
+    <% if(!locals.category && page.current_page == 0){%>
+        <div class="jumbotron">
+            <h1 class="display-4">Bem vindo.</h1>
+            <p class="lead">
+              Este é um simples blog feito em node.js
+            </p>
+            <hr class="my-4" />
+            <p>
+              Você pode ler, editar e remover artigos!
+            </p>
+            <p class="lead">
+              <a class="btn btn-primary btn-lg" href="#" role="button">Saiba mais</a>
+            </p>
+          </div>
+    <%} %>
+  <div class="row">
+      <div class="col-12">
+          <% if(locals.category){%>
+            <small class="text-muted">Categoria: <%=category.title%></small>
+          <%} %>
+      </div>
+    <% if(locals.articles) { 
+        if(articles.rows){
+          articles = articles.rows
+        }
+      %> <% articles.forEach(article => { %>
+    <div class="col-12">
+      <div class="card my-3">
+        <div class="card-header">
+          <h6><%=article.title%></h6>
+        </div>
+        <div class="card-body">
+          <a href="<%=ROUTES.HOME.ARTICLE_WITHOUT_PARAMS%>/<%=article.id%>/<%=article.slug%>" class="btn btn-success">Ler Artigo</a>
+        </div>
+      </div>
+    </div>
+    <%}) %> <%} %>
+  </div>
+  <div class="row mb-4">
+    <div class="col-6 d-flex justify-content-start">
+      <% if(locals.page){
+        if(page.can_get_previous_page){%>
+          <a href="<%=ROUTES.HOME.PAGE_WITHOUT_PARAMS%>/<%=page.previous_page%>"><< Anterior</a>
+        <%}
+      } %>
+    </div>
+    <div class="col-6 d-flex justify-content-end">
+      <% if(locals.page){
+        if(page.can_get_next_page){%>
+          <a href="<%=ROUTES.HOME.PAGE_WITHOUT_PARAMS%>/<%=page.next_page%>">Próximo >></a>
+        <%}
+      } %>
+    </div>
+  </div>
+</div>
 <%- include('partials/footer.ejs') %>
