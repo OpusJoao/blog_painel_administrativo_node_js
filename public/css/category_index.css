@@ -1,0 +1,11 @@
+.show-error{
+    visibility: visible;
+    opacity: 0;
+    transition: .3s ease-in;
+}
+.hidden-error{
+    height: 0;
+    visibility: hidden;
+    opacity: 1;
+    transition: .3s ease-in;
+}
