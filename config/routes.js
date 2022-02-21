@@ -12,6 +12,11 @@ const ROUTES = {
     ADMIN : {
         HOME: "/admin",
     },
+    USER : {
+        LIST: '/admin/users/',
+        SAVE: '/admin/user/',
+        CREATE: '/admin/user/new'
+    },
     CATEGORY : {
         CREATE : "/admin/category/new",
         SAVE : "/admin/category/",
