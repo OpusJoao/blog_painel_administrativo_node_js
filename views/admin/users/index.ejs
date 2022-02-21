@@ -1,0 +1,138 @@
+<%- include('../../partials/header.ejs') %> 
+<%- include('../../partials/navbar.ejs') %>
+<link rel="stylesheet" href="/css/category_index.css">
+<div class="container">
+  
+  <hr>
+  <h2>Usuários</h2>
+  <a href="<%= ROUTES.CATEGORY.CREATE %>" class="btn btn-success">Criar nova usuário</a>
+  <hr>
+  <div class="alertError hidden-error">
+    <div class="alert alert-danger" role="alert">
+      <p><strong id="alertErrorTitle">Error title</strong>: <span id="alertErrorBody">Error body.</span></p>
+    </div>
+  </div>
+  <table class="table table-bordered">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>E-mail</th>
+              <th>Ações</th>
+          </tr>
+      </thead>
+      <tbody>
+        <% if(locals.users) { %>
+          <% users.forEach(user => { %>
+              <tr>
+                  <td><%=user.id%></td>
+                  <td><%=user.email%></td>
+                  <td>
+                      <a href="<%=ROUTES.USER.EDIT.GET_WITHOUT_PARAM + user.id%>" class="btn btn-warning">Editar</a>
+                      <form id="deleteForm" class="d-inline" action="<%=ROUTES.USER.DELETE%>" method="POST">
+                          <input id="deleteId" type="hidden" name="id" value="<%=user.id%>">
+                          <button type="button" class="btn btn-danger" onclick="confirmDelete('<%=user.id%>','<%=user.email%>')">Deletar</button>
+                      </form>
+                  </td>
+              </tr>
+          <%}) %>  
+        <%} %>  
+        
+      </tbody>
+  </table>
+
+  <!-- Modal -->
+<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Deletar usuário?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente <strong>deletar</strong> o seguinte usuário?</p>
+          <div class="container bg-light p-3">
+            <p>ID: <span id="confirmDeleteId"></span></p>
+            <p>E-mail: <span id="confirmDeleteEmail"></span></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="deleteCategory()">Sim</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let instanceOfUser = {
+        id: '',
+        email: '',
+    }
+    
+    function confirmDelete(id,email){
+        setInstanceCategoryProperties(id, email)
+        setCategoryOnHtmlModal(instanceOfUser)
+        $('#confirmDelete').modal('toggle')
+    }
+
+    function setInstanceCategoryProperties(id,email){
+        instanceOfUser.id = id ? id : ''
+        instanceOfUser.email = email ? email : ''
+    }
+
+    function setCategoryOnHtmlModal(user){
+        $("#confirmDeleteId").text(user.id)
+        $("#confirmDeleteEmail").text(user.email)
+    }
+
+    function setIdOnFormToDelete(id){
+        $("#deleteId").val(id)
+    }
+    
+    function deleteCategory(){
+        setIdOnFormToDelete(instanceOfUser.id)
+        $("#deleteForm").submit()
+    }
+</script>
+<script>
+  $(document).ready(function(){
+    let error;
+    "<% if(locals.error){ %>" 
+     error = {
+       title: "<%=error.title%>",
+       body: "<%=error.body%>",
+     }
+     errorMessage(error)
+    "<%}%>"
+  })
+
+  function errorMessage(error){
+    if(isValidError(error)){
+      if(setError(error)){
+        showError(error)
+      }
+    }
+  }
+
+  function isValidError(error){
+    return error.title && error.body
+  }
+
+  function setError(error){
+    $("#alertErrorTitle").text(error.title)
+    $("#alertErrorBody").text(error.body)
+    return $("#alertErrorTitle").text() != "" && $("#alertErrorBody").text() != "" 
+  }
+
+  function showError(error){
+    const secondsToHideError = 3;
+    const millisecondsToHideError = secondsToHideError * 1000
+    $(".alertError").removeClass('hidden-error')
+    setTimeout(()=>{
+      $(".alertError").addClass('hidden-error')
+    }, millisecondsToHideError)
+  }
+</script>
+<%- include('../../partials/footer.ejs') %>
