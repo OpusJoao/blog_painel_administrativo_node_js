@@ -1,0 +1,24 @@
+<nav class="px-2 navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">
+        GuiaPress
+    </a>
+
+    <ul class="navbar-nav w-auto mr-auto">
+        <li class="nav-item">
+            <a  class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbar_categories" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categorias
+            </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%if(locals.categories){
+                categories.forEach(category =>{%>
+                    <a class="dropdown-item" href="<%=ROUTES.HOME.CATEGORY_WITHOUT_PARAMS%>/<%=category.id%>/<%=category.slug%>"><%=category.title%></a>
+                <%})%>
+            <%}%>
+        </div>
+        </li>
+    </ul>
+
+</nav>
