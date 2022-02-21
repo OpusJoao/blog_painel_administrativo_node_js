@@ -1,0 +1,152 @@
+<%- include('../../partials/header.ejs') %> 
+<%- include('../../partials/navbar.ejs') %>
+<link rel="stylesheet" href="/css/category_index.css">
+<div class="container">
+  
+  <hr>
+  <h2>Artigos</h2>
+  <a href="<%= ROUTES.ARTICLE.CREATE %>" class="btn btn-success">Criar novo artigo</a>
+  <hr>
+  <div class="alertError hidden-error">
+    <div class="alert alert-danger" role="alert">
+      <p><strong id="alertErrorTitle">Error title</strong>: <span id="alertErrorBody">Error body.</span></p>
+    </div>
+  </div>
+  <table class="table table-bordered">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Titulo</th>
+              <th>Slug</th>
+              <th>Categoria</th>
+              <th>Ações</th>
+          </tr>
+      </thead>
+      <tbody>
+        <% if(locals.articles) { %>
+          <% articles.forEach(article => { %>
+              <tr>
+                  <td><%=article.id%></td>
+                  <td><%=article.title%></td>
+                  <td><%=article.slug%></td>
+                  <td><%=article.category.title%></td>
+                  <td>
+                      <a href="<%=ROUTES.ARTICLE.EDIT.GET_WITHOUT_PARAM + article.id%>" class="btn btn-warning">Editar</a>
+                      <form id="deleteForm" class="d-inline" action="<%=ROUTES.ARTICLE.DELETE%>" method="POST">
+                          <input id="deleteId" type="hidden" name="id" value="<%=article.id%>">
+                          <button type="button" class="btn btn-danger" onclick="confirmDelete('<%=article.id%>','<%=article.title%>', '<%=article.slug%>', '<%=article.category.title%>')">Deletar</button>
+                      </form>
+                  </td>
+              </tr>
+          <%}) %>  
+        <%} %>  
+        
+      </tbody>
+  </table>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Deletar artigo?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Deseja realmente <strong>deletar</strong> o seguinte artigo?</p>
+            <div class="container bg-light p-3">
+              <p>ID: <span id="confirmDeleteId"></span></p>
+              <p>Titulo: <span id="confirmDeleteTitle"></span></p>
+              <p>Slug: <span id="confirmDeleteSlug"></span></p>
+              <p>Categoria: <span id="confirmDeleteCategory"></span></p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="deleteCategory()">Sim</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<script>
+    let instanceOfArticle = {
+        id: '',
+        title: '',
+        slug: '',
+        categoryId: '',
+    }
+    
+    function confirmDelete(id,title, slug, categoryId){
+        setInstanceCategoryProperties(id, title, slug, categoryId)
+        setCategoryOnHtmlModal(instanceOfArticle)
+        $('#confirmDelete').modal('toggle')
+    }
+
+    function setInstanceCategoryProperties(id,title, slug, categoryId){
+        instanceOfArticle.id = id ? id : ''
+        instanceOfArticle.title = title ? title : ''
+        instanceOfArticle.slug = slug ? slug : ''
+        instanceOfArticle.categoryId = categoryId ? categoryId : ''
+    }
+
+    function setCategoryOnHtmlModal(category){
+        $("#confirmDeleteId").text(category.id)
+        $("#confirmDeleteTitle").text(category.title)
+        $("#confirmDeleteSlug").text(category.slug)
+        $("#confirmDeleteCategory").text(category.categoryId)
+    }
+
+    function setIdOnFormToDelete(id){
+        $("#deleteId").val(id)
+    }
+    
+    function deleteCategory(){
+        setIdOnFormToDelete(instanceOfArticle.id)
+        $("#deleteForm").submit()
+    }
+</script>
+<script>
+  $(document).ready(function(){
+    let error;
+    "<% if(locals.error){ %>" 
+     error = {
+       title: "<%=error.title%>",
+       body: "<%=error.body%>",
+     }
+     errorMessage(error)
+    "<%}%>"
+  })
+
+  function errorMessage(error){
+    if(isValidError(error)){
+      if(setError(error)){
+        showError(error)
+      }
+    }
+  }
+
+  function isValidError(error){
+    return error.title && error.body
+  }
+
+  function setError(error){
+    $("#alertErrorTitle").text(error.title)
+    $("#alertErrorBody").text(error.body)
+    return $("#alertErrorTitle").text() != "" && $("#alertErrorBody").text() != "" 
+  }
+
+  function showError(error){
+    const secondsToHideError = 3;
+    const millisecondsToHideError = secondsToHideError * 1000
+    $(".alertError").removeClass('hidden-error')
+    setTimeout(()=>{
+      $(".alertError").addClass('hidden-error')
+    }, millisecondsToHideError)
+  }
+</script>
+<%- include('../../partials/footer.ejs') %>
