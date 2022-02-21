@@ -1,0 +1,12 @@
+<%- include('partials/header.ejs') %> <%- include('partials/homeNavBar.ejs') %>
+<div class="container py-4">
+  <h3><%=article.title%></h3>
+  <div class="mx-3">
+      <small class="text-muted">Criado em: <%=article.createdAt%></small>
+      <br>
+      <small class="text-muted">Ultima edição: <%=article.createdAt%></small>
+    </p>
+  </div>
+  <div class="mx-3"><%- article.body%></div>
+</div>
+<%- include('partials/footer.ejs') %>
