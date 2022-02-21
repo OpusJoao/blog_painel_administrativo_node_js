@@ -1,11 +1,9 @@
 const express = require('express');
-const { send, render } = require('express/lib/response');
 const Category = require('./Category');
 const slugify = require('slugify')
 const router = express.Router();
 const ROUTES = require('../../config/routes')
 const VIEW = require('../../config/views');
-const { route } = require('express/lib/application');
 
 router.get(ROUTES.CATEGORY.CREATE,(req,res) => {
     res.render(VIEW.CATEGORY.CREATE, {ROUTES: ROUTES})
@@ -17,7 +15,7 @@ router.get(ROUTES.CATEGORY.LIST,(req,res) => {
         res.render(VIEW.CATEGORY.LIST, {ROUTES:ROUTES,categories: categories})
     })
     .catch((reason)=>{
-        console.error('[ GET -> CategoriesController on /admin/category/] Erro ao listar categorias', reason)
+        console.error(`[ GET -> CategoriesController on ${ROUTES.CATEGORY.LIST}] Erro ao listar categorias`, reason)
         res.redirect('/')
     })
 })
@@ -107,7 +105,7 @@ router.post(ROUTES.CATEGORY.EDIT.SAVE,(req,res) => {
         })
     }else{
         console.error(`[ POST -> CategoriesController on ${ROUTES.CATEGORY.EDIT.SAVE}] ID de categoria inválido`)
-        res.render(VIEW.CATEGORY.LIST, {error: {title:'Erro ao editar', body: 'ID de categoria inválido'}});
+        res.redirect(ROUTES.CATEGORY.LIST)
     }
 })
 
