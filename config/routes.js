@@ -15,7 +15,13 @@ const ROUTES = {
     USER : {
         LIST: '/admin/users/',
         SAVE: '/admin/user/',
-        CREATE: '/admin/user/new'
+        CREATE: '/admin/user/new',
+        EDIT : {
+            GET: "/admin/user/edit/:id",
+            GET_WITHOUT_PARAM: "/admin/user/edit/",
+            SAVE: "/admin/user/edit/:id"
+        },
+        LOGIN: '/login'
     },
     CATEGORY : {
         CREATE : "/admin/category/new",

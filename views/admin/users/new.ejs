@@ -1,0 +1,85 @@
+<%- include('../../partials/header.ejs') %> <%-
+include('../../partials/navbar.ejs') %>
+<link rel="stylesheet" href="/css/category_index.css">
+
+<div class="container">
+  <hr />
+  <div class="card">
+      <div class="card-header">
+        <h2>Cadastro de usuário</h2>
+        <div class="alertError hidden-error">
+          <div class="alert alert-danger" role="alert">
+            <p><strong id="alertErrorTitle">Error title</strong>: <span id="alertErrorBody">Error body.</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form action="<%=ROUTES.USER.SAVE%>" method="post">
+            <div class="form-group">
+              <input
+              class="form-control"
+              type="email"
+              name="email"
+              placeholder="email"
+              id="email"
+              required
+              /> 
+            </div>
+            <div class="form-group">
+
+            <input
+              class="form-control"
+              type="password"
+              name="password"
+              placeholder="********"
+              id="password"
+              required
+            />   
+            </div>  
+      </div>
+      <div class="card-footer">
+          <button class="btn btn-success btn-block">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+    let error;
+    "<% if(locals.error){ %>" 
+     error = {
+       title: "<%=error.title%>",
+       body: "<%=error.body%>",
+     }
+     errorMessage(error)
+    "<%}%>"
+  })
+
+  function errorMessage(error){
+    if(isValidError(error)){
+      if(setError(error)){
+        showError(error)
+      }
+    }
+  }
+
+  function isValidError(error){
+    return error.title && error.body
+  }
+
+  function setError(error){
+    $("#alertErrorTitle").text(error.title)
+    $("#alertErrorBody").text(error.body)
+    return $("#alertErrorTitle").text() != "" && $("#alertErrorBody").text() != "" 
+  }
+
+  function showError(error){
+    const secondsToHideError = 3;
+    const millisecondsToHideError = secondsToHideError * 1000
+    $(".alertError").removeClass('hidden-error')
+    setTimeout(()=>{
+      $(".alertError").addClass('hidden-error')
+    }, millisecondsToHideError)
+  }
+</script>
+<%- include('../../partials/footer.ejs') %>

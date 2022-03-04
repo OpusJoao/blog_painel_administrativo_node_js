@@ -6,7 +6,8 @@ const VIEW = {
     USER:{
         LIST: 'admin/users/index',
         CREATE: 'admin/users/new',
-        EDIT: 'admin/users/edit'
+        EDIT: 'admin/users/edit',
+        LOGIN: 'admin/users/login'
     },
     CATEGORY : {
         CREATE: 'admin/categories/new',
