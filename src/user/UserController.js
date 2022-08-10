@@ -81,4 +81,9 @@ router.post(ROUTES.USER.SAVE,adminAuth, (req,res) => {
     })
 })
 
+router.get(ROUTES.USER.LOGOUT,(req,res)=>{
+    req.session.user = undefined
+    res.redirect(ROUTES.HOME.HOME)
+})
+
 module.exports = router;

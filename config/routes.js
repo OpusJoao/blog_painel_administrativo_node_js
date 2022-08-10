@@ -21,7 +21,8 @@ const ROUTES = {
             GET_WITHOUT_PARAM: "/admin/user/edit/",
             SAVE: "/admin/user/edit/:id"
         },
-        LOGIN: '/login'
+        LOGIN: '/login',
+        LOGOUT: '/logout'
     },
     CATEGORY : {
         CREATE : "/admin/category/new",
