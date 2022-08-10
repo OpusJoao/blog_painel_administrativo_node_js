@@ -131,7 +131,6 @@ router.get(ROUTES.HOME.CATEGORY,(req,res) => {
     .then(category => {
         if(category){
             Category.findAll().then((categories)=>{
-                console.log("category", category)
                 res.render(VIEW.HOME, {ROUTES:ROUTES, articles: category.articles, categories:categories, category: category})
             }).catch(reason=>{
                 console.error(`[ GET -> HomeController on ${ROUTES.HOME.CATEGORY}] Erro ao listar Categorias`, reason)
