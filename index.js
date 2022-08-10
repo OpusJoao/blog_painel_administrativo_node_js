@@ -10,10 +10,6 @@ const userController = require('./src/user/UserController')
 const session = require('express-session')
 const PORT = 8080; 
 
-const Article = require('./src/articles/Article')
-const Category = require('./src/categories/Category');
-const { path } = require('express/lib/application');
-
 //View engine
 app.set('view engine', 'ejs');
 
