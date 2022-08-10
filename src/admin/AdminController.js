@@ -4,8 +4,9 @@ const VIEW = require('../../config/views');
 const Category = require('../categories/Category');
 const Article = require('../articles/Article');
 const router = express.Router();
+const adminAuth = require('../../middlewares/adminAuth')
 
-router.get(ROUTES.ADMIN.HOME,(req,res) => {
+router.get(ROUTES.ADMIN.HOME, adminAuth,(req,res) => {
     Article.findAll({
         order: [
             ['id','DESC']
